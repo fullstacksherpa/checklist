@@ -23,6 +23,21 @@ We are just going to add a little bit of extra configuration and make it a bit s
 
 In the above small code example we have added a few additional defaults, we have said that React will always be defined even if we don't specifically import it, and I have added a personal custom rule that I like which allows you to prefix variables with an underscore _ if you have declared them but not used them in the code.
 
+Rule Name (no-unused-vars): This rule is designed to flag variables that are declared but never used in the code. It helps catch potential issues with unused variables.
+
+Severity Level ([1]): The severity level is a number that represents how severely ESLint should treat the rule violations. In ESLint, the levels are:
+
+0: off
+1: warning
+2: error
+In your case, [1] indicates a warning level.
+
+Options ({ "args": "after-used", "argsIgnorePattern": "^_" }):
+
+"args": "after-used": This option configures the rule to only flag variables if they are used after they are declared.
+"argsIgnorePattern": "^_": This option provides an exception to the rule, allowing variables whose names match the specified pattern (^_) to be ignored. In this case, variables starting with an underscore (_) will not trigger the warning, even if they are declared and not used.
+
+
 You can test out your config by running:
 
 ```
