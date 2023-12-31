@@ -1,0 +1,3 @@
+# ⚙️ Project Configuration
+
+This application is proudly developed using the Next.js framework `(version 14.0.4)`, chosen for its robust features and advantages. Benefit from optimal performance, server-side rendering, and a seamless developer experience. Thanks to its powerful capabilities, this application seamlessly integrates with backend APIs, providing a versatile solution for dynamic data handling. Leveraging the latest Next.js 14.0.4 app router, navigation is swift and intuitive, offering an enhanced user experience. Experience the perfect synergy of frontend excellence and backend support, all made possible by Next.js.
