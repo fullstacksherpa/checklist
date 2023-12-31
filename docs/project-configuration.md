@@ -117,3 +117,57 @@ npm prettier
 to automatically format, fix and save all files in your project you haven't ignored. By default my formatter updated about 5 files. You can see them in your list of changed files in the source control tab on the left of VS Code.
 
 Let's make another commit with `build: implement prettier`.
+
+
+## Git Hooks
+
+One more section on configuration before we start getting into component development. Remember you're going to want this project to be as rock solid as possible if you're going to be building on it in the long term, particularly with a team of other developers. It's worth the time to get it right at the start.
+
+We are going to implement a tool called [Husky](https://typicode.github.io/husky/#/)
+
+Husky is a tool for running scripts at different stages of the git process, for example add, commit, push, etc. We would like to be able to set certain conditions, and only allow things like commit and push to succeed if our code meets those conditions, presuming that it indicates our project is of acceptable quality.
+
+To install Husky run
+
+```
+npx husky-init && npm install
+```
+after running above command, husky will inject ‘prepare’: “husky install” in scripts in the package.json. When you run npm install or yarn install, the prepare script is triggered automatically, and it runs husky install.
+
+after that we will add command in the pre-commit
+```
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+npm run lint
+
+```
+
+The above says that in order for our commit to succeed, the `npm run lint` script must first run and succeed. "Succeed" in this context means no errors. It will allow you to have warnings (remember in the ESLint config a setting of 1 is a warning and 2 is an error in case you want to adjust settings).
+
+
+`package.json`
+
+```
+  ...
+  "scripts: {
+    ...
+    "prepare": "husky install"
+  }
+```
+
+This will ensure Husky gets installed automatically when other developers run the project.
+
+
+
+Let's create a new commit with the message `ci: implement husky`. If all has been setup properly your lint script should run before the commit is allowed to occur.
+
+We're going to add another one:
+
+```
+npx husky add .husky/pre-push "npm run build"
+```
+
+The above ensures that we are not allowed to push to the remote repository unless our code can successfully build. That seems like a pretty reasonable condition doesn't it? Feel free to test it by committing this change and trying to push.
+
+---
