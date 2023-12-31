@@ -4,8 +4,6 @@ This would be a good time to make our first commit to our remote repo, to make s
 
 By default your Next.js project will already have a repo initialized. You can check what branch you are on with `git status`.
 
-
-
 Let's commit our changes so far.
 
 ```

@@ -18,7 +18,6 @@ npm run dev
 
 You should see the demo app available on [http://localhost:3000](http://localhost:3000)
 
-
 Also recommended to run
 
 ```
@@ -29,15 +28,11 @@ To ensure you can successfully do a production build of the project. It's recomm
 
 You should get a nice little report on the command line of all the pages built with green coloured text implying they are small and efficient. We'll try to keep them that way as we develop the project.
 
-
-
 ## Git Setup
 
 This would be a good time to make our first commit to our remote repo, to make sure our changes are backed up, and to follow best practices for keeping related changes grouped within a single commit before moving to something new.
 
 By default your Next.js project will already have a repo initialized. You can check what branch you are on with `git status`. It should say something like:
-
-
 
 Let's commit our changes so far.
 
@@ -135,7 +130,6 @@ It's only needed during development, so I'll add it as a `devDependency` with `-
 npm add -D prettier
 ```
 
-
 We'll create two files in the root:
 
 `.prettierrc`
@@ -197,9 +191,11 @@ To install Husky run
 ```
 npx husky-init && npm install
 ```
+
 after running above command, husky will inject ‘prepare’: “husky install” in scripts in the package.json. When you run npm install or yarn install, the prepare script is triggered automatically, and it runs husky install.
 
 after that we will add command in the pre-commit
+
 ```
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
@@ -209,7 +205,6 @@ npm run lint
 ```
 
 The above says that in order for our commit to succeed, the `npm run lint` script must first run and succeed. "Succeed" in this context means no errors. It will allow you to have warnings (remember in the ESLint config a setting of 1 is a warning and 2 is an error in case you want to adjust settings).
-
 
 `package.json`
 
@@ -222,8 +217,6 @@ The above says that in order for our commit to succeed, the `npm run lint` scrip
 ```
 
 This will ensure Husky gets installed automatically when other developers run the project.
-
-
 
 Let's create a new commit with the message `ci: implement husky`. If all has been setup properly your lint script should run before the commit is allowed to occur.
 
@@ -419,7 +412,6 @@ At this stage I'll be making a new commit with message `build: add debugging con
 
 This section is now going to cover setting up the folder structure in our project. This is one of those topics that many people will have _extremely strong opinions about_, and for good reason! Directory structure can really make or break a project in the long term when it gets out of control, especially when fellow team members have to spend unnecessary time trying to guess where to put things (or find things).
 
-
 ```
 /components
 /lib
@@ -432,8 +424,7 @@ This section is now going to cover setting up the folder structure in our projec
 
 We will have other folders in addition to this to support the project, but the core of almost everything that makes up the unique app that we are building will be housed in these three directories.
 
-Within `components` we will have subdirectories that kind of group similar types of components together. You can use any method you prefer to do this. 
-
+Within `components` we will have subdirectories that kind of group similar types of components together. You can use any method you prefer to do this.
 
 ## Adding Storybook
 
@@ -488,9 +479,6 @@ I have added `// New` to mark the two new sections and lines that are Storybook 
 
 You'll notice that Storybook has also added as `/stories` directory to the root of your project with a number of examples in. If you are new to Storybook I highly recommend you look through them and leave them there until you are comfortable creating your own without the templates.
 
-
-
-
 Next we have to update the `.storybook/main.ts` file:
 
 `storybook/main.js`
@@ -515,7 +503,6 @@ const config: StorybookConfig = {
   },
 };
 export default config;
-
 ```
 
 We have also exposed Next.js's "public" folder as a static directory so we can test things like images, media, etc in Storybook.
@@ -525,7 +512,7 @@ Lastly, before we run Storybook itself, let's add some helpful values in `storyb
 `storybook/preview.ts`
 
 ```ts
-import '../src/app/globals.css'
+import '../src/app/globals.css';
 import type { Preview } from '@storybook/react';
 
 const preview: Preview = {
@@ -541,11 +528,7 @@ const preview: Preview = {
 };
 
 export default preview;
-
 ```
-
-
-
 
 I would encourage you to play around and get familiar with the examples if you've never used it before.
 
