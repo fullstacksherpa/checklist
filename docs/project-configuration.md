@@ -118,7 +118,6 @@ to automatically format, fix and save all files in your project you haven't igno
 
 Let's make another commit with `build: implement prettier`.
 
-
 ## Git Hooks
 
 One more section on configuration before we start getting into component development. Remember you're going to want this project to be as rock solid as possible if you're going to be building on it in the long term, particularly with a team of other developers. It's worth the time to get it right at the start.
@@ -132,9 +131,11 @@ To install Husky run
 ```
 npx husky-init && npm install
 ```
+
 after running above command, husky will inject ‘prepare’: “husky install” in scripts in the package.json. When you run npm install or yarn install, the prepare script is triggered automatically, and it runs husky install.
 
 after that we will add command in the pre-commit
+
 ```
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
@@ -144,7 +145,6 @@ npm run lint
 ```
 
 The above says that in order for our commit to succeed, the `npm run lint` script must first run and succeed. "Succeed" in this context means no errors. It will allow you to have warnings (remember in the ESLint config a setting of 1 is a warning and 2 is an error in case you want to adjust settings).
-
 
 `package.json`
 
@@ -157,8 +157,6 @@ The above says that in order for our commit to succeed, the `npm run lint` scrip
 ```
 
 This will ensure Husky gets installed automatically when other developers run the project.
-
-
 
 Let's create a new commit with the message `ci: implement husky`. If all has been setup properly your lint script should run before the commit is allowed to occur.
 
@@ -283,3 +281,113 @@ The above will tell VS Code to use your Prettier extension as the default format
 Very handy stuff and just another thing you no longer need to think about so you can focus on the important things like solving business problems.
 
 I'll now make a commit with message `build: implement vscode project settings`.
+
+## Adding Storybook
+
+One of the great modern tools available to us if you aren't already familiar with it is called [Storybook](https://storybook.js.org/).
+
+Storybook gives us an environment to show off and test the React components we are building outside of the application we are using them in. It's great tool to connect developers with designers and be able to verify components we have developed look and function as per design requirements in an isolated environment without the overhead of the rest of the app.
+
+Note that Storybook is meant as a visual testing tool, we will be implementing other tools later for functional unit testing and end-to-end testing.
+
+The best way to learn how to use Storybook is installing it and trying it out!
+
+```
+npx storybook@latest init
+```
+
+When Storybook installs it automatically detects a lot of things about your project, like how it is a React app, and other tools you are using. It should take care fo all that configuration itself.
+
+If you get a prompt about the eslintPlugin, you can say "yes". We are going to configure it manually though, so no worries if you get a message saying it didn't auto-configure.
+
+Open up `.eslintrc.json` and update it to the following:
+
+`.eslintrc.json`
+
+```json
+{
+  "extends": [
+    "plugin:storybook/recommended", // New
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended"
+  ],
+  "globals": {
+    "React": "readonly"
+  },
+  // New
+  "overrides": [
+    {
+      "files": ["*.stories.@(ts|tsx|js|jsx|mjs|cjs)"],
+      "rules": {
+        // example of overriding a rule
+        "storybook/hierarchy-separator": "error"
+      }
+    }
+  ],
+  "rules": {
+    "no-unused-vars": [1, { "args": "after-used", "argsIgnorePattern": "^_" }]
+  }
+}
+```
+
+I have added `// New` to mark the two new sections and lines that are Storybook specific.
+
+You'll notice that Storybook has also added as `/stories` directory to the root of your project with a number of examples in. If you are new to Storybook I highly recommend you look through them and leave them there until you are comfortable creating your own without the templates.
+
+Next we have to update the `.storybook/main.ts` file:
+
+`storybook/main.js`
+
+```ts
+import type { StorybookConfig } from '@storybook/nextjs';
+
+const config: StorybookConfig = {
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-onboarding',
+    '@storybook/addon-interactions',
+  ],
+  framework: {
+    name: '@storybook/nextjs',
+    options: {},
+  },
+  docs: {
+    autodocs: 'tag',
+  },
+};
+export default config;
+```
+
+We have also exposed Next.js's "public" folder as a static directory so we can test things like images, media, etc in Storybook.
+
+Lastly, before we run Storybook itself, let's add some helpful values in `storybook/preview.js`. This is the file where we can control the defaults for how our stories render.
+
+`storybook/preview.ts`
+
+```ts
+import '../app/globals.css'; //to give storybook access to tailwindcss
+import type { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+  },
+};
+
+export default preview;
+```
+
+I would encourage you to play around and get familiar with the examples if you've never used it before.
+
+At this stage I'll be making a commit with message `build: implement storybook`.
+
+---
