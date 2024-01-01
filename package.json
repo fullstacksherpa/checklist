@@ -8,9 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write .",
-    "prepare": "husky install",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.1",
@@ -26,14 +24,6 @@
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "@storybook/addon-essentials": "^7.6.6",
-    "@storybook/addon-interactions": "^7.6.6",
-    "@storybook/addon-links": "^7.6.6",
-    "@storybook/addon-onboarding": "^1.0.10",
-    "@storybook/blocks": "^7.6.6",
-    "@storybook/nextjs": "^7.6.6",
-    "@storybook/react": "^7.6.6",
-    "@storybook/test": "^7.6.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -44,7 +34,6 @@
     "husky": "^8.0.0",
     "postcss": "^8",
     "prettier": "^3.1.1",
-    "storybook": "^7.6.6",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
   }
